@@ -13,7 +13,9 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -52,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
     {
 
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
+                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.activity_main);
         final Button Record = (Button)findViewById(R.id.btRecord);
         final Button DbMeasure = (Button)findViewById(R.id.btStDb);
@@ -61,6 +65,8 @@ public class MainActivity extends AppCompatActivity {
         mLineChart = (LineChart)findViewById(R.id.chart);
         LineData mLineData =getLineData(36,100);
         showChart(mLineChart, mLineData, Color.rgb(114, 188, 223));
+
+
 
         //---------------------------------按钮的监听处理
         CaTest.setOnClickListener(new View.OnClickListener() {
@@ -74,24 +80,28 @@ public class MainActivity extends AppCompatActivity {
         final Runnable runnable = new Runnable() {
             public void run() {
 
-                    addEntryme(mLineChart,ft.getcurDb());
+             addEntryme(mLineChart,ft.getcurDb());
             }
         };
         final Thread refreshT = new Thread(){
             //public boolean isrun=true;
             @Override
             public void run() {
-                while(startFlag == 1) {
-                    handler.post(runnable); //加入到消息队列
-                    try {
-                        sleep(100); //更新时间
-                    } catch (InterruptedException e) {
-                        return;
-                    }
-                }
+
+                  while(true) {
+                      if (startFlag == 1) handler.post(runnable); //加入到消息队列
+                      try {
+                          sleep(1000 / ft.TimeperS); //更新时间
+                      } catch (InterruptedException e) {
+                          return;
+                      }
+                  }
+
             }
         };
         ft.setTextview((TextView)findViewById(R.id.tvDbNumber));//用于实时显示噪音值的textview控件
+        ft.setTextviewMAXDb((TextView)findViewById(R.id.tvMaxDb));//用于实时显示最大噪音值的textview控件
+        ft.setTextviewMINDb((TextView)findViewById(R.id.tvMinDb));//用于实时显示最小噪音值的textview控件
 
         Record.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -125,6 +135,7 @@ public class MainActivity extends AppCompatActivity {
                     {
                     ft.getNoiseLevel();
                     DbMeasure.setText("正在测量环境噪音");
+                        ft.setTimeperS(20);
                     Infomation.setText("当前显示为每页"+Maxpoint+"点,"+"采样速率为"+1000/ft.TimeperS+"次每秒");
                     refreshT.start();//图表绘制线程
                     startFlag = 1;
@@ -132,8 +143,14 @@ public class MainActivity extends AppCompatActivity {
             else  if(startFlag ==1)
               {
                   DbMeasure.setText("噪音测量已暂停");
-                  startFlag = 0;
+                  startFlag = 2;
               }
+              else if(startFlag == 2)
+                   {
+                       DbMeasure.setText("正在测量环境噪音");
+                       Infomation.setText("当前显示为每页"+Maxpoint+"点,"+"采样速率为"+ft.TimeperS+"次每秒");
+                       startFlag = 1;
+                   }
           }
 
         });
@@ -219,7 +236,7 @@ public class MainActivity extends AppCompatActivity {
         entries.add(new Entry(4, 5));
         entries.add(new Entry(5, 6));
 
-        LineDataSet dataSet = new LineDataSet(entries, "# of Calls");
+        LineDataSet dataSet = new LineDataSet(entries, "Db");
         LineData lineData = new LineData(dataSet);
 
         return lineData;
@@ -237,17 +254,22 @@ public class MainActivity extends AppCompatActivity {
         lineChart.setVisibleXRangeMaximum(100);//最大显示数量
         lineChart.moveViewToX(data.getEntryCount() - 5);
     }
-
-    private  void addEntryme(LineChart lineChart,float y)
+    int discout = 0;//用以移动图表
+    private  void addEntryme(LineChart lineChart,float y)//添加点到图表上
     {
-        Entry entry = new Entry(cout,y);
+        int temp = 0;
+
+        Entry entry = new Entry((cout),y);
         cout++;
         LineData data = lineChart.getData();
         LineDataSet set = (LineDataSet) data.getDataSetByIndex(0);
         data.addEntry(entry,0);
         lineChart.notifyDataSetChanged();
         lineChart.setVisibleXRangeMaximum(Maxpoint);
-        lineChart.moveViewToX(data.getEntryCount() - Maxpoint);
+        discout++;
+
+            lineChart.moveViewToX(data.getEntryCount() -5);
+            discout =0 ;
     }
     private void setMaxpoint(int num)
     {

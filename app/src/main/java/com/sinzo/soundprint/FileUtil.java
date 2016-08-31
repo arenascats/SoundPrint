@@ -31,6 +31,7 @@ public class FileUtil {
     boolean isGetVoiceRun;
     Object mLock;
     public int TimeperS = 10;
+    private int minDb = 30,maxDb = 30;
 
 
     /**
@@ -66,15 +67,27 @@ public class FileUtil {
         return  curDb;
     }
      public TextView textView;
+    public TextView txMAXDb;
+    public TextView txMINDb;
     public void setTextview(TextView tx)
     {
        textView  = tx;
+    }
+    public void setTextviewMAXDb(TextView tx)
+    {
+        txMAXDb  = tx;
+    }
+    public void setTextviewMINDb(TextView tx)
+    {
+        txMINDb  = tx;
     }
 //------------------------多线程部分，负责控制控件显示噪音值-----------------//
     final Handler handler= new Handler();//创造句柄
             final Runnable runnable = new Runnable() {
         public void run() {
             textView.setText(Integer.toString(curDb));
+            txMINDb.setText(Integer.toString(minDb));
+            txMAXDb.setText(Integer.toString(maxDb));
             }
         };
     final Thread refreshT = new Thread(){
@@ -133,6 +146,8 @@ public class FileUtil {
                     Log.d(TAG, "分贝值:" + volume);
                     if(volume > 10)
                     curDb = (int)volume;//转换为float防止输出过多
+                    if(curDb > maxDb )     maxDb = curDb;
+                    else if(curDb <minDb)  minDb = curDb;
                     // 大概一秒十次
                     synchronized (mLock) {
                         try {
