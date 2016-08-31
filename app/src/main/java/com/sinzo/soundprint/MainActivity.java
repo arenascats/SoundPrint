@@ -1,5 +1,7 @@
 package com.sinzo.soundprint;
 import android.app.Activity;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
@@ -60,15 +62,28 @@ public class MainActivity extends AppCompatActivity {
         final Button Record = (Button)findViewById(R.id.btRecord);
         final Button DbMeasure = (Button)findViewById(R.id.btStDb);
         final Button CaTest = (Button)findViewById(R.id.btTest);
+        final  Button DbReboot = (Button)findViewById((R.id.btReboot));
         final FileUtil ft= new FileUtil();
 
         mLineChart = (LineChart)findViewById(R.id.chart);
         LineData mLineData =getLineData(36,100);
         showChart(mLineChart, mLineData, Color.rgb(114, 188, 223));
 
+        String phoneName = Build.BRAND;
+        if( phoneName.contains("sum") || phoneName.contains("SUM"))
+        {
+            ft.DbOffset = -20;
+        }
 
 
         //---------------------------------按钮的监听处理
+        DbReboot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                restartApplication();
+            }
+        });
         CaTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -275,4 +290,11 @@ public class MainActivity extends AppCompatActivity {
     {
         Maxpoint  = num;
     }
+
+    private void restartApplication() {//程序重新启动
+        final Intent intent = getPackageManager().getLaunchIntentForPackage(getPackageName());
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
+
 }

@@ -19,7 +19,9 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginBottom="78dp"
-        android:textSize="15sp" />
+        android:textSize="15sp"
+        android:layout_toStartOf="@+id/btTest"
+        android:layout_toLeftOf="@+id/btTest" />
 
     <TextView
         android:text="录音程序等待启动.."
@@ -115,5 +117,15 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_above="@+id/tvDbNumber" />
+
+    <Button
+        android:text="程序重启"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btReboot"
+        android:layout_alignBaseline="@+id/btRecord"
+        android:layout_alignBottom="@+id/btRecord"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

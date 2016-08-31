@@ -32,6 +32,7 @@ public class FileUtil {
     Object mLock;
     public int TimeperS = 10;
     private int minDb = 30,maxDb = 30;
+    public int DbOffset = 0;//修正偏移量
 
 
     /**
@@ -145,7 +146,7 @@ public class FileUtil {
                     double volume = 10 * Math.log10(mean);
                     Log.d(TAG, "分贝值:" + volume);
                     if(volume > 10)
-                    curDb = (int)volume;//转换为float防止输出过多
+                    curDb = (int)volume + DbOffset;//转换为float防止输出过多
                     if(curDb > maxDb )     maxDb = curDb;
                     else if(curDb <minDb)  minDb = curDb;
                     // 大概一秒十次

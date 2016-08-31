@@ -114,4 +114,13 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
+    <Button
+        android:text="程序重启"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btReboot"
+        android:layout_below="@+id/lbInfor"
+        android:layout_toRightOf="@+id/btStDb"
+        android:layout_toEndOf="@+id/btStDb" />
+
 </RelativeLayout>
