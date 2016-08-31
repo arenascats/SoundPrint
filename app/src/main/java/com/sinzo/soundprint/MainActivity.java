@@ -32,8 +32,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     private MediaRecorder mRecorder = new MediaRecorder();
-    int recFlag = 0;
-    int startFlag = 0;
+    int recFlag = 0;//录音标志
+    int startFlag = 0;//测量开始标志
+    int Maxpoint = 100;//每页的最大显示点
     String filename ;
     static final int SAMPLE_RATE_IN_HZ = 8000;
     static final int BUFFER_SIZE = AudioRecord.getMinBufferSize(SAMPLE_RATE_IN_HZ,
@@ -119,10 +120,12 @@ public class MainActivity extends AppCompatActivity {
       DbMeasure.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View v){
+              TextView Infomation = (TextView)findViewById(R.id.lbInfor);
                    if(startFlag ==0)
                     {
                     ft.getNoiseLevel();
                     DbMeasure.setText("正在测量环境噪音");
+                    Infomation.setText("当前显示为每页"+Maxpoint+"点,"+"采样速率为"+1000/ft.TimeperS+"次每秒");
                     refreshT.start();//图表绘制线程
                     startFlag = 1;
                 }
@@ -234,6 +237,7 @@ public class MainActivity extends AppCompatActivity {
         lineChart.setVisibleXRangeMaximum(100);//最大显示数量
         lineChart.moveViewToX(data.getEntryCount() - 5);
     }
+
     private  void addEntryme(LineChart lineChart,float y)
     {
         Entry entry = new Entry(cout,y);
@@ -242,7 +246,11 @@ public class MainActivity extends AppCompatActivity {
         LineDataSet set = (LineDataSet) data.getDataSetByIndex(0);
         data.addEntry(entry,0);
         lineChart.notifyDataSetChanged();
-        lineChart.setVisibleXRangeMaximum(100);
-        lineChart.moveViewToX(data.getEntryCount() - 5);
+        lineChart.setVisibleXRangeMaximum(Maxpoint);
+        lineChart.moveViewToX(data.getEntryCount() - Maxpoint);
+    }
+    private void setMaxpoint(int num)
+    {
+        Maxpoint  = num;
     }
 }

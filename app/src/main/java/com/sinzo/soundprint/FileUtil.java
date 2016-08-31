@@ -131,6 +131,7 @@ public class FileUtil {
                     double mean = v / (double) r;
                     double volume = 10 * Math.log10(mean);
                     Log.d(TAG, "分贝值:" + volume);
+                    if(volume > 10)
                     curDb = (int)volume;//转换为float防止输出过多
                     // 大概一秒十次
                     synchronized (mLock) {
