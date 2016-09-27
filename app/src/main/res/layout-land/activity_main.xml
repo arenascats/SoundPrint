@@ -24,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btTest"
-        android:layout_above="@+id/btRecord"
+        android:layout_above="@+id/btTimeSwitch"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
@@ -96,10 +96,10 @@
         android:layout_marginEnd="36dp" />
 
     <Button
-        android:text="开始录音"
+        android:text="采样率切换"
         android:layout_width="100dip"
         android:layout_height="wrap_content"
-        android:id="@+id/btRecord"
+        android:id="@+id/btTimeSwitch"
         android:textSize="15sp"
         android:layout_alignBottom="@+id/tvDbNumber"
         android:layout_alignParentRight="true"

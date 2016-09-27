@@ -152,7 +152,7 @@ public class FileUtil {
                     // 大概一秒十次
                     synchronized (mLock) {
                         try {
-                            mLock.wait(1000 / TimeperS);//等待100毫秒
+                            mLock.wait(1000 / TimeperS);//等待Timpers毫秒
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }

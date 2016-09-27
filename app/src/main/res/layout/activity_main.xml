@@ -11,10 +11,10 @@
     tools:context="com.sinzo.soundprint.MainActivity">
 
     <Button
-        android:text="开始录音(dounttouch)"
+        android:text="采样率切换"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/btRecord"
+        android:id="@+id/btTimeSwitch"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -33,20 +33,11 @@
         android:id="@+id/lbInfor" />
 
     <Button
-        android:text="test"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/btTest"
-        android:layout_above="@+id/btRecord"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <Button
         android:text="进行Db测量"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btStDb"
-        android:layout_above="@+id/btRecord"
+        android:layout_above="@+id/btTimeSwitch"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_toLeftOf="@+id/btTest"
@@ -123,8 +114,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btReboot"
-        android:layout_alignBaseline="@+id/btRecord"
-        android:layout_alignBottom="@+id/btRecord"
+        android:layout_alignBaseline="@+id/btTimeSwitch"
+        android:layout_alignBottom="@+id/btTimeSwitch"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:text="旋转屏幕"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btTest"
+        android:layout_above="@+id/btReboot"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
