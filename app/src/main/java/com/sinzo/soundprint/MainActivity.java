@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     int recFlag = 0;//录音标志
     int startFlag = 0;//测量开始标志
     int Maxpoint = 100;//每页的最大显示点
-    int SampleTime = 20;
+    int SampleTime = 30;
     boolean Portrait = true;//竖屏
 
     String filename ;
@@ -163,11 +163,13 @@ public class MainActivity extends AppCompatActivity {
             else  if(startFlag ==1)
               {
                   DbMeasure.setText("噪音测量已暂停");
+                  DbTimeSwitch.setClickable(true);
                   startFlag = 2;
               }
               else if(startFlag == 2)
                    {
                        DbMeasure.setText("正在测量环境噪音");
+                       DbTimeSwitch.setClickable(false);
                        Infomation.setText("当前显示为每页"+Maxpoint+"点,"+"采样速率为"+ft.TimeperS+"次每秒");
                        startFlag = 1;
                    }
@@ -222,7 +224,7 @@ public class MainActivity extends AppCompatActivity {
     //函数名：showChart
     //输入值：LineChart，LineData，color
     //返回值：无
-    //功能：依据设定初始化表格
+    //功能：依据设定初始化表格，可以设置表格的样式，字体颜色等等
     public void showChart(LineChart lineChart, LineData lineData, int color) {
         lineChart.setDrawBorders(false);  //是否在折线图上添加边框
 
@@ -245,8 +247,11 @@ public class MainActivity extends AppCompatActivity {
         // if disabled, scaling can be done on x- and y-axis separately
         lineChart.setPinchZoom(false);//
 
+        //--------------------------------------------【【图表色彩的设置】】
         lineChart.setBackgroundColor(color);// 设置背景
-
+        lineChart.setBorderColor(Color.rgb(213, 0, 0));
+        lineChart.setGridBackgroundColor(Color.rgb(255, 255, 255));
+        //----------------------------------------------------------////
         // add data
         lineChart.setData(lineData); // 设置数据
 
@@ -255,15 +260,21 @@ public class MainActivity extends AppCompatActivity {
 
         // modify the legend ...
         // mLegend.setPosition(LegendPosition.LEFT_OF_CHART);
+
+        //-------------------------------------------------【【表格字体样式的设置】】
         mLegend.setForm(Legend.LegendForm.CIRCLE);// 样式
-        mLegend.setFormSize(6f);// 字体
-        mLegend.setTextColor(Color.WHITE);// 颜色
+        mLegend.setFormSize(16f);// 字体
+        mLegend.setTextColor(Color.WHITE);// 字体的颜色
+
 //      mLegend.setTypeface(mTf);// 字体
+       //-----------------------------------------------------------------//
 
         lineChart.animateX(1000); // 立即执行的动画,x轴
     }
 
-
+    //函数名：ScreenSwitch
+    //返回值：无
+    //功能：切换横屏竖屏
     public void ScreenSwitch()
     {
         if(Portrait == true)
@@ -273,6 +284,10 @@ public class MainActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         //竖屏设置
     }
+
+    //函数名：getLineData
+    //返回值：LineData类型
+    //功能：返回LineData数据类型的xy坐标数据，以用于LineChart的建立和修改
     public LineData getLineData(int count, float range) {
         ArrayList<Entry> entries = new ArrayList<>();
 //        entries.add(new Entry(0, 15));
@@ -287,7 +302,10 @@ public class MainActivity extends AppCompatActivity {
 
         return lineData;
     }
+
+    //
     int cout = 6;
+
     private  void addEntryme(LineChart lineChart)
     {
         float f = (float) ((Math.random()) * 10);

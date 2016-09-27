@@ -95,16 +95,6 @@
         android:layout_marginRight="36dp"
         android:layout_marginEnd="36dp" />
 
-    <Button
-        android:text="采样率切换"
-        android:layout_width="100dip"
-        android:layout_height="wrap_content"
-        android:id="@+id/btTimeSwitch"
-        android:textSize="15sp"
-        android:layout_alignBottom="@+id/tvDbNumber"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
     <TextView
         android:text="0"
         android:layout_width="wrap_content"
@@ -122,5 +112,15 @@
         android:layout_below="@+id/lbInfor"
         android:layout_toRightOf="@+id/btStDb"
         android:layout_toEndOf="@+id/btStDb" />
+
+    <Button
+        android:text="采样率切换"
+        android:layout_width="100dip"
+        android:layout_height="wrap_content"
+        android:id="@+id/btTimeSwitch"
+        android:textSize="15sp"
+        android:layout_alignBottom="@+id/tvDbNumber"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>
